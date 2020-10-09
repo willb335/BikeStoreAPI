@@ -1,8 +1,9 @@
 ﻿using System;
+using BikeStoreAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace BikeStoreAPI.Models
+namespace BikeStoreAPI.Data
 {
     public partial class BikeStoresContext : DbContext
     {
