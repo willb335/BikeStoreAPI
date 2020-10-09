@@ -56,6 +56,7 @@ namespace BikeStoreAPI.Controllers
 
         // POST api/<CategoriesController>
         [HttpPost]
+        [ProducesResponseType(201)]
         public ActionResult<CategoriesReadDto> CreateCategories(CategoriesCreateDto categoriesCreateDto)
         {
             var categoriesModel = _mapper.Map<Categories>(categoriesCreateDto);

@@ -15,7 +15,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-
+using System.Reflection;
+using Microsoft.OpenApi.Models;
 namespace BikeStoreAPI
 {
     public class Startup
@@ -30,6 +31,10 @@ namespace BikeStoreAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "BikeStoreAPI", Version = "v1" });
+            });
             services.AddDbContext<BikeStoresContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("BookStores")));
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -40,6 +45,9 @@ namespace BikeStoreAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1"));
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
