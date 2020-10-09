@@ -17,13 +17,13 @@ namespace BikeStoreAPI.Controllers
     public class CategoriesController : ControllerBase
     {
 
-        private readonly ICategoriesRepo _repository;
         private readonly IMapper _mapper;
+        private readonly BikeStoresContext _context;
 
-        public CategoriesController(ICategoriesRepo repository, IMapper mapper)
+        public CategoriesController(BikeStoresContext context, IMapper mapper)
         {
-            _repository = repository;
             _mapper = mapper;
+            _context = context;
         }
 
         // GET: api/<CategoriesController>
@@ -31,7 +31,7 @@ namespace BikeStoreAPI.Controllers
         public ActionResult<IEnumerable<CategoriesReadDto>> GetAllCategories()
         {
 
-            var categories = _repository.GetAllCategories();
+            var categories = _context.Categories.ToList();
 
             return Ok(_mapper.Map<IEnumerable<CategoriesReadDto>>(categories));
 
@@ -42,7 +42,7 @@ namespace BikeStoreAPI.Controllers
         [HttpGet("{id}", Name = "GetCategoriesById")]
         public ActionResult<CategoriesReadDto> GetCategoriesById(int id)
         {
-            var category = _repository.GetCategoriesById(id);
+            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
 
             if (category == null)
             {
@@ -59,8 +59,13 @@ namespace BikeStoreAPI.Controllers
         public ActionResult<CategoriesReadDto> CreateCategories(CategoriesCreateDto categoriesCreateDto)
         {
             var categoriesModel = _mapper.Map<Categories>(categoriesCreateDto);
-            _repository.CreateCategories(categoriesModel);
-            _repository.SaveChanges();
+
+            //if (categoriesModel == null)
+            //{
+            //    throw new ArgumentNullException(nameof(categoriesModel));
+            //}
+            _context.Categories.Add(categoriesModel);
+            _context.SaveChanges();
 
             var categoriesReadDto = _mapper.Map<CategoriesReadDto>(categoriesModel);
 

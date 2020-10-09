@@ -8,8 +8,6 @@ namespace BikeStoreAPI.Dtos.CategoriesDtos
 {
     public class CategoriesCreateDto
     {
-        //public int CategoryId { get; set; }
-        [Required]
         public string CategoryName { get; set; }
     }
 }

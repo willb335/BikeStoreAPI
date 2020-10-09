@@ -13,6 +13,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 
 namespace BikeStoreAPI
 {
@@ -31,7 +33,7 @@ namespace BikeStoreAPI
             services.AddDbContext<BikeStoresContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("BookStores")));
             services.AddControllers();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<ICategoriesRepo, SqlCategoriesRepo>();
+            services.AddMvc().AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>());
 
         }
 
