@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using BikeStoreAPI.Data;
+using BikeStoreAPI.Dtos.CategoriesDtos;
 using BikeStoreAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,22 +18,23 @@ namespace BikeStoreAPI.Controllers
     {
 
         private readonly ICategoriesRepo _repository;
-        //private readonly IMapper _mapper;
+        private readonly IMapper _mapper;
 
-        public CategoriesController(ICategoriesRepo repository)
+        public CategoriesController(ICategoriesRepo repository, IMapper mapper)
         {
             _repository = repository;
-            //_mapper = mapper;
+            _mapper = mapper;
         }
 
         // GET: api/<CategoriesController>
         [HttpGet]
-        public ActionResult<IEnumerable<Categories>> GetAllCategories()
+        public ActionResult<IEnumerable<CategoriesReadDto>> GetAllCategories()
         {
 
             var categories = _repository.GetAllCategories();
 
-            return Ok(categories);
+            return Ok(_mapper.Map<IEnumerable<CategoriesReadDto>>(categories));
+
 
         }
 
