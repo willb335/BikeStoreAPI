@@ -17,6 +17,9 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
+using MicroElements.Swashbuckle.FluentValidation;
+using Swashbuckle.AspNetCore.Swagger;
+
 namespace BikeStoreAPI
 {
     public class Startup
@@ -34,11 +37,19 @@ namespace BikeStoreAPI
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "BikeStoreAPI", Version = "v1" });
+                options.AddFluentValidationRules();
             });
             services.AddDbContext<BikeStoresContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("BookStores")));
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation(c =>
+            {
+                c.RegisterValidatorsFromAssemblyContaining<Startup>();
+                // Optionally set validator factory if you have problems with scope resolve inside validators.
+                c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+            });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddMvc().AddFluentValidation(config => config.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddLogging(builder => builder.AddConsole());
+
 
         }
 
