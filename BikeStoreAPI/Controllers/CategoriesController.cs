@@ -39,16 +39,34 @@ namespace BikeStoreAPI.Controllers
         }
 
         // GET api/<CategoriesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}", Name = "GetCategoriesById")]
+        public ActionResult<CategoriesReadDto> GetCategoriesById(int id)
         {
-            return "value";
+            var category = _repository.GetCategoriesById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+
+            }
+
+            return Ok(_mapper.Map<CategoriesReadDto>(category));
+
         }
 
         // POST api/<CategoriesController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<CategoriesReadDto> CreateCategories(CategoriesCreateDto categoriesCreateDto)
         {
+            var categoriesModel = _mapper.Map<Categories>(categoriesCreateDto);
+            _repository.CreateCategories(categoriesModel);
+            _repository.SaveChanges();
+
+            var categoriesReadDto = _mapper.Map<CategoriesReadDto>(categoriesModel);
+
+            // return 201 with location of created resource inside header
+            return CreatedAtRoute(nameof(GetCategoriesById), new { id = categoriesReadDto.CategoryId }, categoriesReadDto);
+
         }
 
         // PUT api/<CategoriesController>/5

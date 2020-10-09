@@ -16,7 +16,11 @@ namespace BikeStoreAPI.Data
         }
         public void CreateCategories(Categories categories)
         {
-            throw new NotImplementedException();
+            if (categories == null)
+            {
+                throw new ArgumentNullException(nameof(categories));
+            }
+            _context.Categories.Add(categories);
         }
 
         public void DeleteCategories(Categories categories)
@@ -31,12 +35,12 @@ namespace BikeStoreAPI.Data
 
         public Categories GetCategoriesById(int id)
         {
-            throw new NotImplementedException();
+            return _context.Categories.FirstOrDefault(p => p.CategoryId == id);
         }
 
         public bool SaveChanges()
         {
-            throw new NotImplementedException();
+            return (_context.SaveChanges() >= 0);  
         }
 
         public void UpdateCategories(Categories categories)

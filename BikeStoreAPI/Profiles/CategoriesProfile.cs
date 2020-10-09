@@ -15,7 +15,9 @@ namespace BikeStoreAPI.Profiles
         {
             // Source -> Target
             CreateMap<Categories, CategoriesReadDto>();
+            CreateMap<CategoriesCreateDto, Categories>();
+
         }
-       
+
     }
 }
