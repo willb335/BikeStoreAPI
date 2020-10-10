@@ -19,6 +19,7 @@ using System.Reflection;
 using Microsoft.OpenApi.Models;
 using MicroElements.Swashbuckle.FluentValidation;
 using Swashbuckle.AspNetCore.Swagger;
+using Newtonsoft.Json.Serialization;
 
 namespace BikeStoreAPI
 {
@@ -45,6 +46,9 @@ namespace BikeStoreAPI
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
                 // Optionally set validator factory if you have problems with scope resolve inside validators.
                 c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
+            }).AddNewtonsoftJson(s =>
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
             });
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

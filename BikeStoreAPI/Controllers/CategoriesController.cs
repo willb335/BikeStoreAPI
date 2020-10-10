@@ -6,9 +6,9 @@ using AutoMapper;
 using BikeStoreAPI.Data;
 using BikeStoreAPI.Dtos.CategoriesDtos;
 using BikeStoreAPI.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BikeStoreAPI.Controllers
 {
@@ -106,6 +106,33 @@ namespace BikeStoreAPI.Controllers
 
             return NoContent();
 
+        }
+
+        // PATCH api/<CategoriesController>/5
+        [HttpPatch("{id}")]
+        [ProducesResponseType(204)]
+        public ActionResult PartialCategoryUpdate(int id, JsonPatchDocument<CategoriesUpdateDto> patchDocument)
+        {
+            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            var categoryToPatch = _mapper.Map<CategoriesUpdateDto>(category);
+            patchDocument.ApplyTo(categoryToPatch, ModelState);
+
+            if (!TryValidateModel(ModelState))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(categoryToPatch, category);
+
+
+            _context.SaveChanges();
+
+            return NoContent();
         }
     }
 }

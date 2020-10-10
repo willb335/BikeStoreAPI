@@ -17,6 +17,8 @@ namespace BikeStoreAPI.Profiles
             CreateMap<Categories, CategoriesReadDto>();
             CreateMap<CategoriesCreateDto, Categories>();
             CreateMap<CategoriesUpdateDto, Categories>();
+            CreateMap<Categories, CategoriesUpdateDto>();
+
 
 
         }
