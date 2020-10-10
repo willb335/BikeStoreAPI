@@ -39,8 +39,8 @@ namespace BikeStoreAPI.Controllers
         }
 
         // GET api/<CategoriesController>/5
-        [HttpGet("{id}", Name = "GetCategoriesById")]
-        public ActionResult<CategoriesReadDto> GetCategoriesById(int id)
+        [HttpGet("{id}", Name = "GetCategoryById")]
+        public ActionResult<CategoriesReadDto> GetCategoryById(int id)
         {
             var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
 
@@ -57,27 +57,33 @@ namespace BikeStoreAPI.Controllers
         // POST api/<CategoriesController>
         [HttpPost]
         [ProducesResponseType(201)]
-        public ActionResult<CategoriesReadDto> CreateCategories(CategoriesCreateDto categoriesCreateDto)
+        public ActionResult<CategoriesReadDto> CreateCategory(CategoriesCreateDto categoriesCreateDto)
         {
-            var categoriesModel = _mapper.Map<Categories>(categoriesCreateDto);
+            var category = _mapper.Map<Categories>(categoriesCreateDto);
 
-            _context.Categories.Add(categoriesModel);
+            _context.Categories.Add(category);
             _context.SaveChanges();
 
-            var categoriesReadDto = _mapper.Map<CategoriesReadDto>(categoriesModel);
+            var categoriesReadDto = _mapper.Map<CategoriesReadDto>(category);
 
             // return 201 with location of created resource inside header
-            return CreatedAtRoute(nameof(GetCategoriesById), new { id = categoriesReadDto.CategoryId }, categoriesReadDto);
+            return CreatedAtRoute(nameof(GetCategoryById), new { id = categoriesReadDto.CategoryId }, categoriesReadDto);
 
         }
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        public ActionResult UpdateCategories(int id, CategoriesUpdateDto categoriesUpdateDto)
+        [ProducesResponseType(204)]
+        public ActionResult UpdateCategory(int id, CategoriesUpdateDto categoriesUpdateDto)
         {
-            var categoriesModel = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
 
-            _mapper.Map(categoriesUpdateDto, categoriesModel);
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(categoriesUpdateDto, category);
 
             _context.SaveChanges();
 
@@ -86,8 +92,20 @@ namespace BikeStoreAPI.Controllers
 
         // DELETE api/<CategoriesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(204)]
+        public ActionResult DeleteCategory(int id)
         {
+            var category = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+            _context.Categories.Remove(category);
+            _context.SaveChanges();
+
+            return NoContent();
+
         }
     }
 }
