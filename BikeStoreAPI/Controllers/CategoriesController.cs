@@ -61,10 +61,6 @@ namespace BikeStoreAPI.Controllers
         {
             var categoriesModel = _mapper.Map<Categories>(categoriesCreateDto);
 
-            //if (categoriesModel == null)
-            //{
-            //    throw new ArgumentNullException(nameof(categoriesModel));
-            //}
             _context.Categories.Add(categoriesModel);
             _context.SaveChanges();
 
@@ -77,8 +73,15 @@ namespace BikeStoreAPI.Controllers
 
         // PUT api/<CategoriesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ActionResult UpdateCategories(int id, CategoriesUpdateDto categoriesUpdateDto)
         {
+            var categoriesModel = _context.Categories.FirstOrDefault(p => p.CategoryId == id);
+
+            _mapper.Map(categoriesUpdateDto, categoriesModel);
+
+            _context.SaveChanges();
+
+            return NoContent();
         }
 
         // DELETE api/<CategoriesController>/5
