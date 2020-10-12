@@ -3,7 +3,7 @@
 
 # Bookstore API
 
-A small demo project written with the **.Net Core 3.1 Web API** template.  All models were scaffolded by **Entity Framework** via a "database first" approach. The project is mainly derived from [Les Jackson's The Complete ASP.NET CORE 3 API Tutorial ](https://www.amazon.com/Complete-ASP-NET-Core-Tutorial-Hands/dp/1484262549)
+A small demo project written with the **.Net Core 3.1 Web API** template.  All models were scaffolded by **Entity Framework** via a "database first" approach. The project structure is derived from [Les Jackson's The Complete ASP.NET CORE 3 API Tutorial ](https://www.amazon.com/Complete-ASP-NET-Core-Tutorial-Hands/dp/1484262549)
 
 
 ## Important Dependencies
@@ -25,3 +25,4 @@ Below is a list of topics not explored by this demo
  - Authentication and Authorization
  - Continuous Integration
  - Microsoft Azure deployment
+ - and More...
