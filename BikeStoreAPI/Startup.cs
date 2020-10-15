@@ -52,7 +52,7 @@ namespace BikeStoreAPI
             services.AddControllers().AddFluentValidation(c =>
             {
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
-                // Optionally set validator factory if you have problems with scope resolve inside validators.
+                // Optionally set validator factory if you have problems with scope resolve inside validators
                 c.ValidatorFactoryType = typeof(HttpContextServiceProviderValidatorFactory);
             }).AddNewtonsoftJson(s =>
             {
