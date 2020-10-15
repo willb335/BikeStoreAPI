@@ -20,6 +20,7 @@ using Microsoft.OpenApi.Models;
 using MicroElements.Swashbuckle.FluentValidation;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BikeStoreAPI
 {
@@ -41,6 +42,13 @@ namespace BikeStoreAPI
                 options.AddFluentValidationRules();
             });
             services.AddDbContext<BikeStoresContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("BookStores")));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            {
+                opt.Audience = Configuration["ResourceId"];
+                opt.Authority = $"{Configuration["Instance"]}{Configuration["TenantId"]}";
+            });
+
             services.AddControllers().AddFluentValidation(c =>
             {
                 c.RegisterValidatorsFromAssemblyContaining<Startup>();
@@ -69,6 +77,7 @@ namespace BikeStoreAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

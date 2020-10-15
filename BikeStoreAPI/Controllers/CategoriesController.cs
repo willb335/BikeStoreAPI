@@ -6,6 +6,7 @@ using AutoMapper;
 using BikeStoreAPI.Data;
 using BikeStoreAPI.Dtos.CategoriesDtos;
 using BikeStoreAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
@@ -39,6 +40,7 @@ namespace BikeStoreAPI.Controllers
         }
 
         // GET api/<CategoriesController>/5
+        [Authorize]
         [HttpGet("{id}", Name = "GetCategoryById")]
         public ActionResult<CategoriesReadDto> GetCategoryById(int id)
         {
