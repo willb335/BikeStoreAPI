@@ -31,7 +31,7 @@ namespace BikeStoreAPI.Data
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=BikeStores;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-DM2AFU3;Database=BikeStores;Trusted_Connection=True;");
             }
         }
 
@@ -40,7 +40,7 @@ namespace BikeStoreAPI.Data
             modelBuilder.Entity<Brands>(entity =>
             {
                 entity.HasKey(e => e.BrandId)
-                    .HasName("PK__brands__5E5A8E27ED4D7F76");
+                    .HasName("PK__brands__5E5A8E273B3507CA");
 
                 entity.ToTable("brands", "production");
 
@@ -56,7 +56,7 @@ namespace BikeStoreAPI.Data
             modelBuilder.Entity<Categories>(entity =>
             {
                 entity.HasKey(e => e.CategoryId)
-                    .HasName("PK__categori__D54EE9B48FB67C9E");
+                    .HasName("PK__categori__D54EE9B46CF5E6B9");
 
                 entity.ToTable("categories", "production");
 
@@ -72,7 +72,7 @@ namespace BikeStoreAPI.Data
             modelBuilder.Entity<Customers>(entity =>
             {
                 entity.HasKey(e => e.CustomerId)
-                    .HasName("PK__customer__CD65CB85684947EC");
+                    .HasName("PK__customer__CD65CB8577B6FFB9");
 
                 entity.ToTable("customers", "sales");
 
@@ -125,7 +125,7 @@ namespace BikeStoreAPI.Data
             modelBuilder.Entity<OrderItems>(entity =>
             {
                 entity.HasKey(e => new { e.OrderId, e.ItemId })
-                    .HasName("PK__order_it__837942D4BC6CBFA9");
+                    .HasName("PK__order_it__837942D4E58730BC");
 
                 entity.ToTable("order_items", "sales");
 
@@ -148,18 +148,18 @@ namespace BikeStoreAPI.Data
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderItems)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__order_ite__order__398D8EEE");
+                    .HasConstraintName("FK__order_ite__order__3A81B327");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderItems)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__order_ite__produ__3A81B327");
+                    .HasConstraintName("FK__order_ite__produ__3B75D760");
             });
 
             modelBuilder.Entity<Orders>(entity =>
             {
                 entity.HasKey(e => e.OrderId)
-                    .HasName("PK__orders__465962299EA003CF");
+                    .HasName("PK__orders__465962294A35DC96");
 
                 entity.ToTable("orders", "sales");
 
@@ -189,24 +189,24 @@ namespace BikeStoreAPI.Data
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__orders__customer__33D4B598");
+                    .HasConstraintName("FK__orders__customer__34C8D9D1");
 
                 entity.HasOne(d => d.Staff)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StaffId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__orders__staff_id__35BCFE0A");
+                    .HasConstraintName("FK__orders__staff_id__36B12243");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StoreId)
-                    .HasConstraintName("FK__orders__store_id__34C8D9D1");
+                    .HasConstraintName("FK__orders__store_id__35BCFE0A");
             });
 
             modelBuilder.Entity<Products>(entity =>
             {
                 entity.HasKey(e => e.ProductId)
-                    .HasName("PK__products__47027DF516749898");
+                    .HasName("PK__products__47027DF58E362C29");
 
                 entity.ToTable("products", "production");
 
@@ -231,23 +231,23 @@ namespace BikeStoreAPI.Data
                 entity.HasOne(d => d.Brand)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.BrandId)
-                    .HasConstraintName("FK__products__brand___286302EC");
+                    .HasConstraintName("FK__products__brand___29572725");
 
                 entity.HasOne(d => d.Category)
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CategoryId)
-                    .HasConstraintName("FK__products__catego__276EDEB3");
+                    .HasConstraintName("FK__products__catego__286302EC");
             });
 
             modelBuilder.Entity<Staffs>(entity =>
             {
                 entity.HasKey(e => e.StaffId)
-                    .HasName("PK__staffs__1963DD9CE2630114");
+                    .HasName("PK__staffs__1963DD9CABEC80C1");
 
                 entity.ToTable("staffs", "sales");
 
                 entity.HasIndex(e => e.Email)
-                    .HasName("UQ__staffs__AB6E6164D2C06805")
+                    .HasName("UQ__staffs__AB6E616433A92BFA")
                     .IsUnique();
 
                 entity.Property(e => e.StaffId).HasColumnName("staff_id");
@@ -284,18 +284,18 @@ namespace BikeStoreAPI.Data
                 entity.HasOne(d => d.Manager)
                     .WithMany(p => p.InverseManager)
                     .HasForeignKey(d => d.ManagerId)
-                    .HasConstraintName("FK__staffs__manager___30F848ED");
+                    .HasConstraintName("FK__staffs__manager___31EC6D26");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Staffs)
                     .HasForeignKey(d => d.StoreId)
-                    .HasConstraintName("FK__staffs__store_id__300424B4");
+                    .HasConstraintName("FK__staffs__store_id__30F848ED");
             });
 
             modelBuilder.Entity<Stocks>(entity =>
             {
                 entity.HasKey(e => new { e.StoreId, e.ProductId })
-                    .HasName("PK__stocks__E68284D39408DB47");
+                    .HasName("PK__stocks__E68284D36D8B198D");
 
                 entity.ToTable("stocks", "production");
 
@@ -308,18 +308,18 @@ namespace BikeStoreAPI.Data
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Stocks)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__stocks__product___3E52440B");
+                    .HasConstraintName("FK__stocks__product___3F466844");
 
                 entity.HasOne(d => d.Store)
                     .WithMany(p => p.Stocks)
                     .HasForeignKey(d => d.StoreId)
-                    .HasConstraintName("FK__stocks__store_id__3D5E1FD2");
+                    .HasConstraintName("FK__stocks__store_id__3E52440B");
             });
 
             modelBuilder.Entity<Stores>(entity =>
             {
                 entity.HasKey(e => e.StoreId)
-                    .HasName("PK__stores__A2F2A30CFF586CDA");
+                    .HasName("PK__stores__A2F2A30CFF87124A");
 
                 entity.ToTable("stores", "sales");
 
