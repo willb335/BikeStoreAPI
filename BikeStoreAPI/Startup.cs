@@ -21,6 +21,9 @@ using MicroElements.Swashbuckle.FluentValidation;
 using Swashbuckle.AspNetCore.Swagger;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.Identity.Web;
+
 
 namespace BikeStoreAPI
 {
@@ -43,11 +46,16 @@ namespace BikeStoreAPI
             });
             services.AddDbContext<BikeStoresContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("BookStores")));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
-            {
-                opt.Audience = Configuration["ResourceId"];
-                opt.Authority = $"{Configuration["Instance"]}{Configuration["TenantId"]}";
-            });
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>
+            //{
+            //    opt.Audience = Configuration["ResourceId"];
+            //    opt.Authority = $"{Configuration["Instance"]}{Configuration["TenantId"]}";
+            //});
+
+            //  services.AddAuthentication(OpenIdConnectDefaults.AuthenticationScheme)
+            //.AddMicrosoftIdentityWebApp(Configuration.GetSection("AzureAd"));
+            services.AddMicrosoftIdentityWebApiAuthentication(Configuration);
+
 
             services.AddControllers().AddFluentValidation(c =>
             {
