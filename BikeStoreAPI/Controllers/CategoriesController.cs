@@ -28,6 +28,7 @@ namespace BikeStoreAPI.Controllers
         }
 
         // GET: api/<CategoriesController>
+        [Authorize]
         [HttpGet]
         public ActionResult<IEnumerable<CategoriesReadDto>> GetAllCategories()
         {
