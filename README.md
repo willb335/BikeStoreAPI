@@ -22,7 +22,6 @@ Below is a list of topics not explored by this demo
 
  - Testing 
  - Environment Variables and User Secrets
- - Authentication and Authorization
  - Continuous Integration
  - Microsoft Azure deployment
  - and More...
