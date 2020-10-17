@@ -9,7 +9,7 @@ using BikeStoreAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.Identity.Web.Resource;
 
 namespace BikeStoreAPI.Controllers
 {
@@ -34,6 +34,8 @@ namespace BikeStoreAPI.Controllers
         {
 
             var categories = _context.Categories.ToList();
+
+            HttpContext.VerifyUserHasAnyAcceptedScope("BikeStore.View");
 
             return Ok(_mapper.Map<IEnumerable<CategoriesReadDto>>(categories));
 
